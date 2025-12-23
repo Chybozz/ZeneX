@@ -21,7 +21,7 @@ const transactionRef = params.get("ref");
 document.getElementById("amount").innerText = amount;
 
 function pay() {
-    fetch("http://127.0.0.1:8000/transfer", {
+    fetch("https://web-production-6a26.up.railway.app/transfer", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
