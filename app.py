@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-
+import os
 
 # FastAPI setup
 app = FastAPI(title="ZeneX API")
@@ -17,13 +17,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # database connection setup (example)
 db_config = {
-    'user': 'root',
-    'password': 'Onuchukwu12!',
-    'host': '127.0.0.1',
-    'database': 'zenexDB'
+    "host": os.getenv("MYSQLHOST"),
+    "user": os.getenv("MYSQLUSER"),
+    "password": os.getenv("MYSQLPASSWORD"),
+    "database": os.getenv("MYSQLDATABASE"),
+    "port": int(os.getenv("MYSQLPORT", 3306))
 }
+# 'user': 'root',
+# 'password': 'Onuchukwu12!',
+# 'host': '127.0.0.1',
+# 'database': 'zenexDB'
 
 # Function to convert Naira string to Kobo integer (e.g., "₦50.25" -> 5025)
 def naira_to_kobo(amount: str) -> int:
@@ -198,6 +205,7 @@ def transfer(req: TransferRequest):
 # Dashboard route
 @app.get("/")
 def dashboard():
+    # return FileResponse(os.path.join(BASE_DIR, "dashboard.html"))
     return FileResponse("dashboard.html")
 
 # Payment route
