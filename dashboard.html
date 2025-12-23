@@ -32,7 +32,11 @@ function generateLink() {
     }
 
     const transactionRef = generateTransactionRef();
-    const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
+
+    const BASE_URL = "https://web-production-6a26.up.railway.app";
+
+    const link = `${BASE_URL}/payment?amount=${amount}&ref=${transactionRef}`;
+    // const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
 
     document.getElementById("paymentLink").value = link;
 }
