@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Page</title>
+</head>
+<body>
+
+<h2>Payment Page</h2>
+
+<p><strong>Amount:</strong> ₦<span id="amount"></span></p>
+
+<button onclick="pay()">Pay</button>
+
+<p id="result"></p>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const amount = params.get("amount");
+const transactionRef = params.get("ref");
+
+document.getElementById("amount").innerText = amount;
+
+function pay() {
+    fetch("http://127.0.0.1:8000/transfer", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            sender_id: 1,
+            receiver_id: 2,
+            amount: "₦" + amount,
+            transaction_ref: transactionRef
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+            data.message || JSON.stringify(data);
+    })
+    .catch(err => {
+        document.getElementById("result").innerText = "Error: " + err;
+    });
+}
+</script>
+
+</body>
+</html>

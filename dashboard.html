@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h2>Dashboard</h2>
+
+<label>Amount (₦):</label>
+<input type="text" id="amount" placeholder="50.25" />
+
+<br><br>
+
+<button onclick="generateLink()">Generate Payment Link</button>
+
+<br><br>
+
+<p>Payment Link:</p>
+<input type="text" id="paymentLink" style="width: 400px;" readonly />
+
+<script>
+function generateTransactionRef() {
+    return "TXN-" + Date.now();
+}
+
+function generateLink() {
+    const amount = document.getElementById("amount").value;
+    if (!amount) {
+        alert("Enter amount");
+        return;
+    }
+
+    const transactionRef = generateTransactionRef();
+    const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
+
+    document.getElementById("paymentLink").value = link;
+}
+</script>
+
+</body>
+</html>
