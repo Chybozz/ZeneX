@@ -21,7 +21,7 @@
         <div class="alert error" id="errorBox"></div>
 
         <div class="receipt" id="receipt">
-            <h3 id="msg">Payment Successful 🎉</h3>
+            <h3 id="msg"></h3>
             <p><strong>Amount:</strong> ₦<span id="rAmount"></span></p>
             <p><strong>Reference:</strong> <span id="rRef"></span></p>
             <p><strong>Status:</strong> <span id="rStatus"></span></p>
@@ -97,7 +97,7 @@ function pay() {
             document.getElementById("rAmount").innerText = amount;
             document.getElementById("rRef").innerText = transactionRef;
             document.getElementById("rStatus").innerText = "Failed";
-            errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
+            //errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
         }
