@@ -74,19 +74,18 @@ function pay() {
     })
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
+        document.getElementById("result").innerText = "Error: " + err;
+        msg = document.getElementById("result").style.display = "none";
         btn.disabled = false;
         btn.innerText = "Pay Now";
         
         errorBox.style.display = "block";
 
-        if (err.error === "INSUFFICIENT_FUNDS") {
+        if (err.error === "INSUFFICIENT_FUNDS" || msg === "INSUFFICIENT_FUNDS") {
             errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
         }
-        
-        document.getElementById("result").innerText = "Error: " + err;
-        alert("Payment failed");
     });
 }
 </script>
