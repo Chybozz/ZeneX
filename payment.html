@@ -18,7 +18,7 @@
 
         <button class="payment-button" id="payBtn" onclick="pay()">Pay</button>
 
-        <div class="alert error" id="errorBox"></div>
+        <!-- <div class="alert error" id="errorBox"></div> -->
 
         <div class="receipt" id="receipt">
             <h3 id="msg">Payment Successful 🎉</h3>
@@ -77,9 +77,11 @@ function pay() {
         // SUCCESS
         btn.style.display = "none";
         document.getElementById("receipt").style.display = "block";
+        document.getElementById("msg").innerText = data.message + " 🎉";
         document.getElementById("rAmount").innerText = amount;
         document.getElementById("rRef").innerText = transactionRef;
         document.getElementById("rStatus").innerText = data.status || "Completed";
+        document.getElementById("rStatus").style.textTransform = "capitalize";
     })
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
@@ -91,7 +93,7 @@ function pay() {
 
         if (errorMessage.toLowerCase().includes("insufficient funds")) {
             document.getElementById("receipt").style.display = "block";
-            document.getElementById("msg").innerText = errorMessage + "❌";
+            document.getElementById("msg").innerText = errorMessage + " ❌";
             document.getElementById("rAmount").innerText = amount;
             document.getElementById("rRef").innerText = transactionRef;
             document.getElementById("rStatus").innerText = "Failed";
@@ -99,7 +101,7 @@ function pay() {
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
         }
-        document.getElementById("result").innerText = "Error: " + errorMessage;
+        document.getElementById("result").innerText = errorMessage;
     });
 }
 </script>
