@@ -5,9 +5,11 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from fastapi.staticfiles import StaticFiles
 
 # FastAPI setup
 app = FastAPI(title="ZeneX API")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # CORS (keep this)
 app.add_middleware(
