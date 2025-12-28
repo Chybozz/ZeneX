@@ -83,7 +83,7 @@ function pay() {
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
         const msg = document.getElementById("result");
-        msg.innerText = "Error: " + err.message || JSON.stringify(err);
+        msg.innerText = "Error: " + err;
         btn.disabled = false;
         btn.innerText = "Pay Now";
         errorBox.style.display = "block";
