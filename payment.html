@@ -74,8 +74,6 @@ function pay() {
     })
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
-        document.getElementById("result").innerText = "Error: " + err;
-        alert("Payment failed");
         btn.disabled = false;
         btn.innerText = "Pay Now";
         
@@ -86,6 +84,9 @@ function pay() {
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
         }
+        
+        document.getElementById("result").innerText = "Error: " + err;
+        alert("Payment failed");
     });
 }
 </script>
