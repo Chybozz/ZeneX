@@ -78,7 +78,7 @@ function pay() {
         msg.innerText = "Error: " + err.message;
         btn.disabled = false;
         btn.innerText = "Pay Now";
-        alert(err.message);
+        alert(err.error);
         console.log("Payment error:", err); // for debugging
         
         errorBox.style.display = "block";
