@@ -1,46 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard - Payment Link</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h2>Dashboard</h2>
+    <div class="card">
+        <h2>Dashboard</h2>
+        <p>Secure Payment Link</p>
 
-<label>Amount (₦):</label>
-<input type="text" id="amount" placeholder="50.25" />
+        <label>Amount (₦):</label>
+        <input type="text" id="amount" placeholder="50.25" />
 
-<br><br>
+        <br><br>
 
-<button onclick="generateLink()">Generate Payment Link</button>
+        <button onclick="generateLink()">Generate Payment Link</button>
 
-<br><br>
+        <br><br>
 
-<p>Payment Link:</p>
-<input type="text" id="paymentLink" style="width: 400px;" readonly />
+        <p>Payment Link:</p>
+        <input type="text" id="paymentLink" readonly />
+    </div>
 
-<script>
-function generateTransactionRef() {
-    return "TXN-" + Date.now();
-}
+    <script>
+        function generateTransactionRef() {
+            return "TXN-" + Date.now();
+        }
 
-function generateLink() {
-    const amount = document.getElementById("amount").value;
-    if (!amount) {
-        alert("Enter amount");
-        return;
-    }
+        function generateLink() {
+            const amount = document.getElementById("amount").value;
+            if (!amount) {
+                alert("Enter amount");
+                return;
+            }
 
-    const transactionRef = generateTransactionRef();
+            const transactionRef = generateTransactionRef();
 
-    const BASE_URL = "https://web-production-6a26.up.railway.app";
+            const BASE_URL = "https://web-production-6a26.up.railway.app";
 
-    const link = `${BASE_URL}/payment?amount=${amount}&ref=${transactionRef}`;
-    // const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
+            const link = `${BASE_URL}/payment?amount=${amount}&ref=${transactionRef}`;
+            // const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
 
-    document.getElementById("paymentLink").value = link;
-}
-</script>
+            document.getElementById("paymentLink").value = link;
+        }
+    </script>
 
 </body>
 </html>

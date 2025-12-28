@@ -1,17 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Payment Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="payment-body">
 
-<h2>Payment Page</h2>
+    <div class="payment-card">
+        <h2>Secure Checkout</h2>
+        <p>You're about to pay</p>
+        <!-- <h2>Payment Page</h2> -->
 
-<p><strong>Amount:</strong> ₦<span id="amount"></span></p>
+        <div class="amount"><strong>Amount:</strong> ₦<span id="amount"></span></div>
 
-<button onclick="pay()">Pay</button>
+        <button class="payment-button" id="payBtn" onclick="pay()">Pay</button>
 
-<p id="result"></p>
+        <div class="receipt" id="receipt">
+            <h3>Payment Successful 🎉</h3>
+            <p><strong>Amount:</strong> ₦<span id="rAmount"></span></p>
+            <p><strong>Reference:</strong> <span id="rRef"></span></p>
+            <p><strong>Status:</strong> Completed</p>
+        </div>
+
+        <p id="result"></p>
+    </div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -21,6 +36,10 @@ const transactionRef = params.get("ref");
 document.getElementById("amount").innerText = amount;
 
 function pay() {
+    const btn = document.getElementById("payBtn");
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div>';
+
     fetch("https://web-production-6a26.up.railway.app/transfer", {
         method: "POST",
         headers: {
@@ -37,9 +56,17 @@ function pay() {
     .then(data => {
         document.getElementById("result").innerText =
             data.message || JSON.stringify(data);
+        
+        btn.style.display = "none";
+        document.getElementById("receipt").style.display = "block";
+        document.getElementById("rAmount").innerText = amount;
+        document.getElementById("rRef").innerText = transactionRef;
     })
     .catch(err => {
         document.getElementById("result").innerText = "Error: " + err;
+        alert("Payment failed");
+        btn.disabled = false;
+        btn.innerText = "Pay Now";
     });
 }
 </script>
