@@ -57,14 +57,22 @@ function pay() {
             transaction_ref: transactionRef
         })
     })
-    .then(res => res.json())
+    //.then(res => res.json())
+    .then(async res => {
+        const data = await res.json();
+        if (!res.ok) {
+            // The backend sent a 400 with detail
+            throw data;
+        }
+        return data;
+    })
     .then(data => {
         document.getElementById("result").innerText =
             data.message || JSON.stringify(data);
             
-        if (data.status !== "SUCCESS") {
+        /* if (data.status !== "SUCCESS") {
             throw data;
-        }
+        } */
         
         // SUCCESS
         btn.style.display = "none";
@@ -75,11 +83,11 @@ function pay() {
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
         const msg = document.getElementById("result");
-        msg.innerText = "Error: " + err.message;
+        msg.innerText = "Error: " + err;
         btn.disabled = false;
         btn.innerText = "Pay Now";
         alert(err.error);
-        console.log("Payment error:", err); // for debugging
+        const errorMessage = err?.detail || "Payment failed. Please try again.";
         
         errorBox.style.display = "block";
 
