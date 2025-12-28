@@ -87,7 +87,6 @@ function pay() {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
         btn.disabled = false;
         btn.innerText = "Pay Now";
-        errorBox.style.display = "block";
 
         const errorMessage = err?.detail || "Payment failed. Please try again.";
 
@@ -99,6 +98,7 @@ function pay() {
             document.getElementById("rStatus").innerText = "Failed";
             //errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
         } else {
+            errorBox.style.display = "block";
             errorBox.innerText = "❌ Payment failed. Please try again.";
         }
         document.getElementById("result").innerText = errorMessage;
