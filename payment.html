@@ -62,7 +62,7 @@ function pay() {
         document.getElementById("result").innerText =
             data.message || JSON.stringify(data);
 
-        if (data.status === "error") {
+        if (document.getElementById("result").innerText === "error") {
             throw data;
         }
         
