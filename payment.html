@@ -75,14 +75,15 @@ function pay() {
     .catch(err => {
         // INSUFFICIENT FUNDS OR OTHER ERRORS
         const msg = document.getElementById("result");
-        msg.innerText = "Error: " + err;
+        msg.innerText = "Error: " + err.message;
         btn.disabled = false;
         btn.innerText = "Pay Now";
         alert(err.message);
+        console.log("Payment error:", err); // for debugging
         
         errorBox.style.display = "block";
 
-        if (err.error === "INSUFFICIENT_FUNDS" || err.message === "Insufficient balance") {
+        if (err && err.error === "INSUFFICIENT_FUNDS") {
             errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
