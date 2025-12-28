@@ -61,8 +61,8 @@ function pay() {
     .then(data => {
         document.getElementById("result").innerText =
             data.message || JSON.stringify(data);
-
-        if (data.error) {
+            
+        if (data.status !== "SUCCESS") {
             throw data;
         }
         
