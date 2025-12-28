@@ -126,6 +126,19 @@ h2 {
     to { transform: rotate(360deg); }
 }
 
+.alert {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: none;
+}
+
+.alert.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
 .receipt {
     display: none;
     text-align: left;

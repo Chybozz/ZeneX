@@ -18,6 +18,8 @@
 
         <button class="payment-button" id="payBtn" onclick="pay()">Pay</button>
 
+        <div class="alert error" id="errorBox"></div>
+
         <div class="receipt" id="receipt">
             <h3>Payment Successful 🎉</h3>
             <p><strong>Amount:</strong> ₦<span id="rAmount"></span></p>
@@ -37,8 +39,11 @@ document.getElementById("amount").innerText = amount;
 
 function pay() {
     const btn = document.getElementById("payBtn");
+    const errorBox = document.getElementById("errorBox");
+
     btn.disabled = true;
     btn.innerHTML = '<div class="spinner"></div>';
+    errorBox.style.display = "none";
 
     fetch("https://web-production-6a26.up.railway.app/transfer", {
         method: "POST",
@@ -56,17 +61,31 @@ function pay() {
     .then(data => {
         document.getElementById("result").innerText =
             data.message || JSON.stringify(data);
+
+        if (data.status === "error") {
+            throw data;
+        }
         
+        // SUCCESS
         btn.style.display = "none";
         document.getElementById("receipt").style.display = "block";
         document.getElementById("rAmount").innerText = amount;
         document.getElementById("rRef").innerText = transactionRef;
     })
     .catch(err => {
+        // INSUFFICIENT FUNDS OR OTHER ERRORS
         document.getElementById("result").innerText = "Error: " + err;
         alert("Payment failed");
         btn.disabled = false;
         btn.innerText = "Pay Now";
+        
+        errorBox.style.display = "block";
+
+        if (err.error === "INSUFFICIENT_FUNDS") {
+            errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
+        } else {
+            errorBox.innerText = "❌ Payment failed. Please try again.";
+        }
     });
 }
 </script>
