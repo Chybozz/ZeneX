@@ -82,7 +82,7 @@ function pay() {
         
         errorBox.style.display = "block";
 
-        if (err.error === "INSUFFICIENT_FUNDS" || err.message === "INSUFFICIENT_FUNDS") {
+        if (err.error === "INSUFFICIENT_FUNDS" || err.message === "Insufficient balance") {
             errorBox.innerText = "❌ Insufficient funds. Please fund your account and try again.";
         } else {
             errorBox.innerText = "❌ Payment failed. Please try again.";
