@@ -4,11 +4,12 @@
 }
 
 body {
-    background: #f4f6f8;
-    min-height: 100vh;
+    background: linear-gradient(135deg, #635bff, #4f46e5);
+    /* min-height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
 }
 
 .card {
@@ -73,6 +74,7 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px 0;
 }
 
 .payment-card {
