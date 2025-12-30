@@ -248,7 +248,7 @@ def get_transactions(user_id: int):
     return [
         {
             "ref": t["transaction_ref"],
-            "amount": f"{t['amount'] / 100:.2f}",  # convert kobo → naira and format as string
+            "amount": f"{t['amount'] / 100:,.2f}",  # convert kobo → naira and format as string
             "status": t["status"],
             "date": t["created_at"]
         }
