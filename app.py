@@ -204,6 +204,58 @@ def transfer(req: TransferRequest):
         conn.close()
 
 
+# Wallet balance route
+@app.get("/wallet/{user_id}")
+def get_wallet(user_id: int):
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT balance FROM wallets WHERE user_id = %s",
+        (user_id,)
+    )
+    wallet = cursor.fetchone()
+    conn.close()
+
+    if not wallet:
+        raise HTTPException(status_code=404, detail="Wallet not found")
+
+    return {
+        "balance": wallet["balance"] / 100  # convert kobo → naira
+    }
+
+
+# Transaction history route
+@app.get("/transactions/{user_id}")
+def get_transactions(user_id: int):
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT transaction_ref, amount, status, created_at
+        FROM transactions
+        WHERE receiver_id = %s
+        ORDER BY created_at DESC
+        LIMIT 10
+        """,
+        (user_id,)
+    )
+
+    txns = cursor.fetchall()
+    conn.close()
+
+    return [
+        {
+            "ref": t["transaction_ref"],
+            "amount": t["amount"] / 100,
+            "status": t["status"],
+            "date": t["created_at"]
+        }
+        for t in txns
+    ]
+
+
 # Dashboard route
 @app.get("/")
 def dashboard():

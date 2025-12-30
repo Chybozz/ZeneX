@@ -10,23 +10,60 @@
 <body>
 
     <div class="card">
-        <h2>Dashboard</h2>
-        <p>Secure Payment Link</p>
+        <span><h6 class="small-text">Tier 3</h6> <br><h5>Martins</h5></span>
+        <h3>Wallet Dashboard</h3>
 
-        <label>Amount (₦):</label>
-        <input type="text" id="amount" placeholder="50.25" />
+        <div class="wallet-container">
+            <div class="wallet-balance">
+                <p class="small-text">Wallet Balance</p>
+                <p class="balance">₦<span id="balance">0.00</span></p>
+                <button class="small-btn">+ Fund Wallet</button>
+            </div>
+            <div class="wallet-actions">
+                <div class="request-pay" onclick="request_pay()">Request Payment</div>
+                <div class="send-money">Send Money</div>
+                <div class="withdraw-funds">Withdraw Funds</div>
+            </div>
+            <div class="wallet-transactions">
+                <h4>Recent Transactions</h4>
+                <ul id="history"></ul>
+            </div>
+        </div>
 
-        <br><br>
+        <div class="request-payment-container">
+            <p>Secure Payment Link</p>
 
-        <button onclick="generateLink()">Generate Payment Link</button>
+            <label>Amount (₦):</label>
+            <input type="text" id="amount" placeholder="50.25" />
 
-        <br><br>
+            <br><br>
 
-        <p>Payment Link:</p>
-        <input type="text" id="paymentLink" readonly />
+            <button onclick="generateLink()">Generate Payment Link</button>
+
+            <br><br>
+
+            <p>Payment Link:</p>
+            <input type="text" id="paymentLink" readonly />
+        </div>
     </div>
 
     <script>
+
+        const BASE_URL = "https://web-production-6a26.up.railway.app";
+        const USER_ID = 2; // receiver wallet
+
+        function request_pay() {
+            const container = document.querySelector(".request-payment-container");
+            const container2 = document.querySelector(".wallet-container");
+            if (container.style.display === "none" || container.style.display === "") {
+                container.style.display = "block";
+                container2.style.display = "none";
+            } else {
+                container.style.display = "none";
+                container2.style.display = "block";
+            }
+        }
+
         function generateTransactionRef() {
             return "TXN-" + Date.now();
         }
@@ -40,13 +77,39 @@
 
             const transactionRef = generateTransactionRef();
 
-            const BASE_URL = "https://web-production-6a26.up.railway.app";
+            // const BASE_URL = "https://web-production-6a26.up.railway.app";
 
             const link = `${BASE_URL}/payment?amount=${amount}&ref=${transactionRef}`;
             // const link = `http://127.0.0.1:8000/payment?amount=${amount}&ref=${transactionRef}`;
 
             document.getElementById("paymentLink").value = link;
         }
+
+        async function loadDashboard() {
+            // Fetch balance
+            const walletRes = await fetch(`${BASE_URL}/wallet/${USER_ID}`);
+            const wallet = await walletRes.json();
+            document.getElementById("balance").innerText = wallet.balance.toFixed(2);
+
+            // Fetch transactions
+            const txnRes = await fetch(`${BASE_URL}/transactions/${USER_ID}`);
+            const txns = await txnRes.json();
+
+            const list = document.getElementById("history");
+            list.innerHTML = "";
+
+            txns.forEach(tx => {
+                const li = document.createElement("li");
+                li.innerText = `₦${tx.amount} • ${tx.status} • ${tx.ref}`;
+                list.appendChild(li);
+            });
+        }
+
+        // Load on page open
+        loadDashboard();
+
+        // Auto-refresh every 5 seconds (simple + effective)
+        setInterval(loadDashboard, 5000);
     </script>
 
 </body>
