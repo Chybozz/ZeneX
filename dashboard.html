@@ -100,8 +100,10 @@
 
             txns.forEach(tx => {
                 const li = document.createElement("li");
-                li.innerText = `₦${tx.amount} • ${tx.status} • ${tx.ref}`;
+                li.innerText = `₦${tx.amount} - ${tx.status} - ${tx.ref}`;
                 list.appendChild(li);
+                list.style.listStyleType = "none";
+                list.style.fontSize = "12px";
             });
         }
 
