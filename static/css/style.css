@@ -34,14 +34,14 @@ p {
 }
 
 .small-text {
-    color: #4c4d50;
+    color: #e9ebf1;
     font-size: 10px;
     display: inline-block;
     margin-bottom: 5px;
 }
 
 .small-btn {
-    color: #4c4d50;
+    color: #e9ebf1;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 6px 12px;
@@ -49,6 +49,9 @@ p {
     cursor: pointer;
     text-align: center;
     background: transparent;
+}
+.small-btn:hover {
+    color: #fff;
 }
 
 .balance {
