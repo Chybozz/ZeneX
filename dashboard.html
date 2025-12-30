@@ -89,7 +89,7 @@
             // Fetch balance
             const walletRes = await fetch(`${BASE_URL}/wallet/${USER_ID}`);
             const wallet = await walletRes.json();
-            document.getElementById("balance").innerText = wallet.balance.toFixed(2);
+            document.getElementById("balance").innerText = wallet.balance.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             // Fetch transactions
             const txnRes = await fetch(`${BASE_URL}/transactions/${USER_ID}`);

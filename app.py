@@ -221,7 +221,7 @@ def get_wallet(user_id: int):
         raise HTTPException(status_code=404, detail="Wallet not found")
 
     return {
-        "balance": f"{wallet['balance'] / 100:,.2f}"  # convert kobo → naira with comma formatting
+        "balance": wallet["balance"] / 100  # convert kobo → naira
     }
 
 
