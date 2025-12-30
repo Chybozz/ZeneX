@@ -61,6 +61,7 @@ p {
 .wallet-actions {
     margin-bottom: 20px;
     overflow: hidden;
+    font-size: 14px;
 }
 
 .wallet-balance {
